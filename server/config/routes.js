@@ -8,7 +8,7 @@ export default (app) => {
   router.use('/api/v1', api.routes());
   router.use('/admin', admin.routes());
   router.get('/', ctx => {
-    ctx.body = 'This is a default response!'
+    ctx.body = 'This is a default response!' + process.env.NODE_ENV
   });
   app.use(router.routes());
 }
