@@ -16,6 +16,12 @@ export async function getRecords(ctx) {
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
 
+  const username = ctx.query.username;
+  const imei = ctx.query.imei;
+  const match = {};
+  if (username)match['username'] = username;
+  if (imei)match['username'] = imei;
+
   let sortName = ctx.query.sortName || 'created';
   if (ctx.query.sortOrder === 'false') {
     sortName = '-' + sortName;
@@ -23,7 +29,7 @@ export async function getRecords(ctx) {
 
   try {
     const count = await Record.count();
-    const list = await Record.find({}).skip(startRow).limit(perPage).sort(sortName).exec();
+    const list = await Record.find(match).skip(startRow).limit(perPage).sort(sortName).exec();
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage, count}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
