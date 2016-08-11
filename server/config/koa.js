@@ -13,7 +13,7 @@ export default (app, passport, config) => {
     app.use(logger());
   }
 
-  // app.use(convert(cors()));
+  app.use(convert(cors()));
   app.use(bodyparser());
   app.use(json());
   app.use(convert(session()));
