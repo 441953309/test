@@ -51,11 +51,17 @@ export async function getImeis(ctx) {
         count: {$sum: 1},
         lastTime: {$max: "$created"},
         firstTime: {$min: "$created"},
-        ip: {$addToSet: '$ip'}
+        ip: {$addToSet: '$ip'},
+        title: {$addToSet: '$title'}
       })
       .skip(startRow)
       .limit(perPage)
       .sort({lastTime: -1});
+
+    for (let record of list) {
+      record.success = record.title.indexOf('支付成功') != -1;
+      delete record.title;
+    }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
