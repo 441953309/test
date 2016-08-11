@@ -47,7 +47,7 @@ export async function getChannels(ctx) {
   try {
     const count = await Channel.count();
     const list = await Channel.find({}).skip(startRow).limit(perPage).sort(sortName).exec();
-    ctx.body = {code: 200, msg: '', data: {items: list, count: count}};
+    ctx.body = {code: 200, msg: '', data: {items: list, _meta:{page, perPage, count}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
   }

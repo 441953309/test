@@ -11,10 +11,10 @@ let ChannelSchema = new Schema({
 
 ChannelSchema
   .path('username')
-  .validate(async function(value, respond){
+  .validate(async function (value, respond) {
     const channel = await this.constructor.findOne({username: value});
-    if(channel){
-      if(this.id === channel.id) return respond(true);
+    if (channel) {
+      if (this.id === channel.id) return respond(true);
       return respond(false);
     }
     respond(true);

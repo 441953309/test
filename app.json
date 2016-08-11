@@ -1,0 +1,13 @@
+[
+  {
+    "name": "backstage",
+    "script": "bin/run",
+    "error_file": "log/app-err.log",
+    "out_file": "log/app-out.log",
+    "pid_file": "log/app.pid",
+    "one_launch_only": "true",
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+]

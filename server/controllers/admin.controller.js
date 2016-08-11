@@ -1,18 +1,8 @@
 const mongoose = require('mongoose');
 const Admin = mongoose.model('Admin');
-const ccap = require('ccap')();
+const passport = require('koa-passport');
 
-/**
- *获取验证码
- */
-export async function getCaptcha(ctx) {
-  const ary = ccap.get();
-  const txt = ary[0];
-  const buf = ary[1];
-  ctx.session.captcha = txt;
-  ctx.status = 200;
-  ctx.body = buf;
-}
+
 
 export async function register(ctx) {
   const username = ctx.body.username ? ctx.body.username.replace(/(^\s+)|(\s+$)/g, '') : '';

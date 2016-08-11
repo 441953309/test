@@ -9,7 +9,8 @@ mongoose.connect(config.mongo.url, config.mongo.options);
 require('./models');
 
 const app = new Koa();
-require('./config/koa')(app, config, passport);
+require('./config/passport')(passport);
+require('./config/koa')(app, passport, config);
 require('./config/routes')(app);
 
 export default app;

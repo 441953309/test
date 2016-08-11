@@ -11,7 +11,7 @@ export async function create(ctx) {
   }
 }
 
-export async function getRecords(ctx){
+export async function getRecords(ctx) {
   const page = parseInt(ctx.query.page) > 0 ? parseInt(ctx.query.page) : 1;
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
@@ -24,7 +24,7 @@ export async function getRecords(ctx){
   try {
     const count = await Record.count();
     const list = await Record.find({}).skip(startRow).limit(perPage).sort(sortName).exec();
-    ctx.body = {code: 200, msg: '', data: {items: list, count: count}};
+    ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage, count}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
   }
