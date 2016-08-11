@@ -20,7 +20,7 @@ export async function getRecords(ctx) {
   const imei = ctx.query.imei;
   const match = {};
   if (username)match['username'] = username;
-  if (imei)match['username'] = imei;
+  if (imei)match['imei'] = imei;
 
   let sortName = ctx.query.sortName || 'created';
   if (ctx.query.sortOrder === 'false') {
