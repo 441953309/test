@@ -40,9 +40,6 @@ export async function getChannels(ctx) {
   const startRow = (page - 1) * perPage;
 
   let sortName = ctx.query.sortName || 'created';
-  if (ctx.query.sortOrder === 'false') {
-    sortName = '-' + sortName;
-  }
 
   try {
     const count = await Channel.count();

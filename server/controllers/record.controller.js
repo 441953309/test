@@ -22,10 +22,7 @@ export async function getRecords(ctx) {
   if (username)match['username'] = username;
   if (imei)match['imei'] = imei;
 
-  let sortName = ctx.query.sortName || 'created';
-  if (ctx.query.sortOrder === 'false') {
-    sortName = '-' + sortName;
-  }
+  let sortName = ctx.query.sortName || '-created';
 
   try {
     const count = await Record.count();
