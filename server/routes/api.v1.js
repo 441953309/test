@@ -12,6 +12,7 @@ router.get('/channels/list', channel.getChannels);//获取渠道列表
 router.post('/records', record.create); //插入一条记录
 router.get('/records/list', record.getRecords)
 router.get('/records/imei', record.getImeis)
+router.get('/records/imei/success', record.getSuccessImeis)
 
 //登录先不做
 // router.post('/login', auth.login);
