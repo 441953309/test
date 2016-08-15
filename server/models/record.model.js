@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 let RecordSchema = new Schema({
   url: {type: String, required: true},
   title: {type: String, required: true},
+  recentOrderNum: {type: Number, default: -2},
+  historyOrderNum: {type: Number, default: -2},
   ip: {type: String, required: true},
   imei: {type: String, required: true},
   channel: {type: String, required: true},
