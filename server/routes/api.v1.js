@@ -6,6 +6,7 @@ const channel = require('../controllers/channel.controller');
 const record = require('../controllers/record.controller');
 
 router.post('/channels', channel.create);//创建一个渠道
+router.delete('/channels', channel.remove);//删除一个渠道
 router.get('/channels', channel.getChannel); //获取某一个渠道
 router.get('/channels/list', channel.getChannels);//获取渠道列表
 

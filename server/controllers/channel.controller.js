@@ -21,6 +21,24 @@ export async function create(ctx) {
   }
 }
 
+export async function remove(ctx){
+  try {
+    const id = ctx.request.body.id;
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return ctx.body = {code: 400, msg: '请输入正确的id'};
+    }
+
+    const channel = await Channel.findByIdAndRemove(id);
+    if(channel){
+      ctx.body = {code: 200, msg: '删除成功'};
+    }else{
+      ctx.body = {code: 400, msg: '删除失败'};
+    }
+  } catch (err) {
+    ctx.body = {code: 400, msg: err};
+  }
+}
+
 export async function getChannel(ctx) {
   if (!ctx.query.channel || !ctx.query.username) {
     return ctx.body = {code: 2, msg: '参数错误'}
