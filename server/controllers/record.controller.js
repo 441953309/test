@@ -18,11 +18,24 @@ export async function getRecords(ctx) {
 
   const username = ctx.query.username;
   const imei = ctx.query.imei;
+  const ip = ctx.query.ip;
+  const src = ctx.query.src;
   const title = ctx.query.title;
+  const startTime = ctx.query.startTime;
+  const endTime = ctx.query.endTime;
+
   const match = {};
   if (username)match['username'] = username;
   if (imei)match['imei'] = imei;
+  if (ip)match['ip'] = ip;
+  if (src)match['src'] = src;
   if (title)match['title'] = title;
+  if(startTime && endTime){
+    match['created'] = {
+      "$gte": new Date(startTime),
+      '$lt': new Date(endTime)
+    }
+  }
 
   let sortName = ctx.query.sortName || '-created';
 
@@ -39,6 +52,7 @@ export async function getImeis(ctx) {
   const page = parseInt(ctx.query.page) > 0 ? parseInt(ctx.query.page) : 1;
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
+
   const username = ctx.query.username;
   const imei = ctx.query.imei;
   const ip = ctx.query.ip;
@@ -46,6 +60,7 @@ export async function getImeis(ctx) {
   const title = ctx.query.title;
   const startTime = ctx.query.startTime;
   const endTime = ctx.query.endTime;
+
   const match = {};
   if (username)match['username'] = username;
   if (imei)match['imei'] = imei;
