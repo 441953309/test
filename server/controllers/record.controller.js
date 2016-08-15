@@ -40,8 +40,10 @@ export async function getImeis(ctx) {
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
   const username = ctx.query.username;
+  const title = ctx.query.title;
   const match = {};
   if (username)match['username'] = username;
+  if (title)match['title'] = title;
 
   try {
     const list = await Record.aggregate()
@@ -52,6 +54,7 @@ export async function getImeis(ctx) {
         lastTime: {$max: "$created"},
         firstTime: {$min: "$created"},
         ip: {$addToSet: '$ip'},
+        src: {$addToSet: '$src'},
         title: {$addToSet: '$title'}
       })
       .skip(startRow)
