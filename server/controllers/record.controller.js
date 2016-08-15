@@ -44,12 +44,20 @@ export async function getImeis(ctx) {
   const ip = ctx.query.ip;
   const src = ctx.query.src;
   const title = ctx.query.title;
+  const startTime = ctx.query.startTime;
+  const endTime = ctx.query.endTime;
   const match = {};
   if (username)match['username'] = username;
   if (imei)match['imei'] = imei;
   if (ip)match['ip'] = ip;
   if (src)match['src'] = src;
   if (title)match['title'] = title;
+  if(startTime && endTime){
+    match['created'] = {
+      "$gte": new Date(startTime),
+      '$lt': new Date(endTime)
+    }
+  }
 
   try {
     const list = await Record.aggregate()
