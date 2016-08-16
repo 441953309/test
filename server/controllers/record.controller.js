@@ -172,6 +172,22 @@ export async function getUserIds(ctx) {
     }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
-    ctx.body = {code: 400, msg: err};
+    ctx.body = {code: 400, msg: err.message};
+  }
+}
+
+export async function updateTitle(ctx) {
+  try {
+    const records = await Record.find({title: {'$exists': false}}).limit(200);
+    for (let record of records) {
+      const url = await Url.findOne({url: record.url});
+      if(url){
+        record.title = url.title;
+        await record.save();
+      }
+    }
+    ctx.body = {code: 200, msg: '', data: {items: records}};
+  } catch (err) {
+    ctx.body = {code: 400, msg: err.message};
   }
 }

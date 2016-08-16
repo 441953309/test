@@ -17,6 +17,7 @@ router.post('/records', record.create); //插入一条记录
 router.get('/records/list', record.getRecords)
 router.get('/records/imei', record.getImeis)
 router.get('/records/userid', record.getUserIds)
+router.put('/records/title', record.updateTitle)
 
 router.post('/urls', url.create);
 router.post('/orders/list', order.createOrders);
