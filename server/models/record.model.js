@@ -10,6 +10,7 @@ let RecordSchema = new Schema({
   orderId: String,  //对应平台的订单id
   recentOrderNum: {type: Number, default: -2}, //最近已完成订单数
   historyOrderNum: {type: Number, default: -2},//历史已完成订单数
+  title: String, //需要单独更新进来
 
   ip: {type: String, required: true},       //ip地址
   imei: {type: String, required: true},     //设备唯一识别
