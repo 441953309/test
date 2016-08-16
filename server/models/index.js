@@ -1,4 +1,6 @@
 require('./admin.model')
-require('./shop.model');
-require('./record.model');
 require('./channel.model');
+require('./record.model');
+require('./url.model');
+require('./order.model');
+require('./user.model');
