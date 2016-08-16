@@ -178,7 +178,7 @@ export async function getUserIds(ctx) {
 
 export async function updateTitle(ctx) {
   try {
-    const records = await Record.find({title: {'$exists': false}}).limit(200);
+    const records = await Record.find({title: {'$exists': false}}).limit(100);
     for (let record of records) {
       const url = await Url.findOne({url: record.url});
       if(url){
