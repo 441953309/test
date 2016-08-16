@@ -30,20 +30,18 @@ export async function getRecords(ctx) {
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
 
-  const username = ctx.query.username;
-  const imei = ctx.query.imei;
-  const ip = ctx.query.ip;
-  const src = ctx.query.src;
-  const title = ctx.query.title;
+  const match = {};
+  if (ctx.query.platform)match['platform'] = ctx.query.platform;
+  if (ctx.query.userId)match['userId'] = ctx.query.userId;
+  if (ctx.query.username)match['username'] = ctx.query.username;
+  if (ctx.query.imei)match['imei'] = ctx.query.imei;
+  if (ctx.query.ip)match['ip'] = ctx.query.ip;
+  if (ctx.query.src)match['src'] = ctx.query.src;
+  if (ctx.query.url)match['url'] = ctx.query.url;
+  if (ctx.query.title)match['title'] = ctx.query.title;
+
   const startTime = ctx.query.startTime;
   const endTime = ctx.query.endTime;
-
-  const match = {};
-  if (username)match['username'] = username;
-  if (imei)match['imei'] = imei;
-  if (ip)match['ip'] = ip;
-  if (src)match['src'] = src;
-  if (title)match['title'] = title;
   if (startTime && endTime) {
     match['created'] = {
       "$gte": new Date(startTime),
