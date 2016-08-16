@@ -17,6 +17,7 @@ export async function create(ctx) {
     ctx.request.body.url = url.substr(0, url.indexOf('?'));
     ctx.request.body.query = url.replace(ctx.request.body.url, '');
     ctx.request.body.orderId = getQueryString(url, 'orderCode') || getQueryString(url, 'orderId')
+    if(ctx.request.body.userId)ctx.request.body.userId = decodeURIComponent(ctx.request.body.userId);
 
     await Record.create(ctx.request.body);
     ctx.body = {code: 200, msg: '', data: true};

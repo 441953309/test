@@ -4,9 +4,10 @@ const User = mongoose.model('User');
 export async function create(ctx) {
   try {
     const platform = ctx.request.body.platform;
-    const userId = ctx.request.body.userId;
+    let userId = ctx.request.body.userId;
     if (!platform || !userId)return ctx.body = {code: 400, msg: "参数错误", data: false}
 
+    userId = decodeURIComponent(userId);
     const addressesStr = ctx.request.body.addresses;
     const addresses = JSON.parse(addressesStr);
 

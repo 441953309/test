@@ -10,6 +10,7 @@ export async function createOrders(ctx) {
     const orders = JSON.parse(ordersStr);
     for (let order of orders) {
       order.platform = platform;
+      order.userId = decodeURIComponent(order.userId);
       await Order.findOneAndUpdate({platform: platform, orderId: order.orderId}, order, {upsert: true});
     }
     ctx.body = {code: 200, msg: '', data: true};
