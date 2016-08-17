@@ -175,7 +175,7 @@ export async function getUserIds(ctx) {
       record.order = {};
       for (let oId of record.orderId) {
         if (oId) {
-          let order = await Order.findOne({platform: record._id.platform, userId: record._id.userId, orderId: oId});
+          let order = await Order.findOne({platform: record._id.platform, orderId: oId});
           record.order[oId] = order;
           if(order && ['待发货', '已发货'].indexOf(order.state) != -1) record.success = true;
         }
