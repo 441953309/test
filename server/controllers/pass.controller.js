@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Pass = mongoose.model('Pass');
+const md5 = require('crypto').createHash('md5');
 
 export async function create(ctx) {
   try {
@@ -24,6 +25,17 @@ export async function getPasses(ctx) {
   const page = parseInt(ctx.query.page) > 0 ? parseInt(ctx.query.page) : 1;
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
+
+  const t = ctx.query.t;
+  const sign = ctx.query.sign;
+  if(!t || !sign){
+    return ctx.body = {code: 400, msg: "123"}
+  }
+
+  md5.update(page+"&"+perPage+"&"+t+"&"+"hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw");
+  if(sign != md5.digest('hex')){
+    return ctx.body = {code: 400, msg: "234"}
+  }
 
   const match = {};
   if (ctx.query.platform) match['platform'] = ctx.query.platform;
