@@ -180,7 +180,7 @@ export async function getUserIds(ctx) {
           if(order && ['待发货', '已发货'].indexOf(order.state) != -1) record.success = true;
         }
       }
-      delete record.orderId;
+      // delete record.orderId;
     }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
