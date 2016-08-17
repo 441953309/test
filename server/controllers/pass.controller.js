@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Pass = mongoose.model('Pass');
-const md5 = require('crypto').createHash('md5');
+const crypto = require('crypto');
 
 export async function create(ctx) {
   try {
@@ -32,6 +32,7 @@ export async function getPasses(ctx) {
     return ctx.body = {code: 400, msg: "123"}
   }
 
+  const md5 = crypto.createHash('md5');
   md5.update(page+"&"+perPage+"&"+t+"&"+"hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw");
   if(sign != md5.digest('hex')){
     return ctx.body = {code: 400, msg: "234"}
