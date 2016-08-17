@@ -18,7 +18,7 @@ export async function create(ctx) {
     ctx.request.body.url = url.substr(0, url.indexOf('?'));
     ctx.request.body.query = url.replace(ctx.request.body.url, '');
     ctx.request.body.orderId = getQueryString(url, 'orderCode') || getQueryString(url, 'orderId')
-    if(ctx.request.body.userId)ctx.request.body.userId = decodeURIComponent(ctx.request.body.userId);
+    if (ctx.request.body.userId)ctx.request.body.userId = decodeURIComponent(ctx.request.body.userId);
 
     await Record.create(ctx.request.body);
     ctx.body = {code: 200, msg: '', data: true};
@@ -173,12 +173,14 @@ export async function getUserIds(ctx) {
 
       //获取检测到的订单详情
       record.order = {};
-      for(let oId of record.orderId){
-        if(oId){
+      for (let oId of record.orderId) {
+        if (oId) {
           let order = await Order.findOne({platform: record._id.platform, userId: record._id.userId, orderId: oId});
           record.order[oId] = order;
+          if(order && ['待发货', '已发货'].indexOf(order.state) != -1) record.success = true;
         }
       }
+      delete record.orderId;
     }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
@@ -191,7 +193,7 @@ export async function updateTitle(ctx) {
     const records = await Record.find({title: {'$exists': false}}).limit(100);
     for (let record of records) {
       const url = await Url.findOne({url: record.url});
-      if(url){
+      if (url) {
         record.title = url.title;
         await record.save();
       }
