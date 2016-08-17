@@ -30,6 +30,7 @@ router.post('/passes', pass.create);
 
 router.get('/orders/list', order.getOrders);
 router.get('/users/list', user.getUsers);
+router.get('/passes/list', pass.getPasses);
 
 //登录先不做
 // router.post('/login', auth.login);
