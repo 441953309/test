@@ -167,9 +167,11 @@ export async function getUserIds(ctx) {
       .sort({lastTime: -1});
 
     for (let record of list) {
+      //检测是否有支付成功页面
       record.success = record.url.indexOf('http://my.m.yhd.com/myH5/h5Order/h5OrderFinishPay.do') != -1;
       delete record.url;
 
+      //获取检测到的订单详情
       record.order = {};
       for(let oId of record.orderId){
         if(oId){
