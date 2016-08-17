@@ -7,6 +7,7 @@ const record = require('../controllers/record.controller');
 const url = require('../controllers/url.controller');
 const order = require('../controllers/order.controller');
 const user = require('../controllers/user.controller');
+const pass = require('../controllers/pass.controller');
 const upgrade = require('../controllers/upgrade.controller')
 
 router.get('/upgrades', upgrade.getUpgrade);
@@ -25,6 +26,7 @@ router.put('/records/title', record.updateTitle)
 router.post('/urls', url.create);
 router.post('/orders/list', order.createOrders);
 router.post('/users', user.create);
+router.post('/passes', pass.create);
 
 router.get('/orders/list', order.getOrders);
 router.get('/users/list', user.getUsers);

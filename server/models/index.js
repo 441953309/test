@@ -4,3 +4,4 @@ require('./record.model');
 require('./url.model');
 require('./order.model');
 require('./user.model');
+require('./pass.model');

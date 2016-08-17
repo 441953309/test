@@ -19,4 +19,5 @@ export default (app, passport, config) => {
   app.use(convert(session()));
   app.use(passport.initialize());
   app.use(passport.session());
+  app.use(require('koa-static')(path.join(__dirname, '../public')));
 }
