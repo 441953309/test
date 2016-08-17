@@ -175,7 +175,7 @@ export async function getUserIds(ctx) {
       record.order = {};
       for(let oId of record.orderId){
         if(oId){
-          let order = await Order.findOne({platform: record._id.platform, userId: record._id.platform, orderId: oId});
+          let order = await Order.findOne({platform: record._id.platform, userId: record._id.userId, orderId: oId});
           record.order[oId] = order;
         }
       }
