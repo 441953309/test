@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Record = mongoose.model('Record');
 const Url = mongoose.model('Url');
 const Order = mongoose.model('Order');
+const User = mongoose.model('User');
 
 function getQueryString(url, name) {
   var reg = new RegExp("(^|[&\?])" + name + "=([^&]*)(&|$)");
@@ -171,6 +172,11 @@ export async function getUserIds(ctx) {
       record.success = record.url.indexOf('http://my.m.yhd.com/myH5/h5Order/h5OrderFinishPay.do') != -1;
       delete record.url;
 
+      const user = await User.findOne({platform: record._id.platform, userId: record._id.userId});
+      if(user){
+        record.addresses = user.addresses;
+      }
+
       //获取检测到的订单详情
       record.order = {};
       for (let oId of record.orderId) {
@@ -180,7 +186,7 @@ export async function getUserIds(ctx) {
           if(order && ['待发货', '已发货'].indexOf(order.state) != -1) record.success = true;
         }
       }
-      // delete record.orderId;
+      delete record.orderId;
     }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
