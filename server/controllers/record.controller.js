@@ -178,11 +178,11 @@ export async function getUserIds(ctx) {
       }
 
       //获取检测到的订单详情
-      record.order = {};
+      record.order = [];
       for (let oId of record.orderId) {
         if (oId) {
           let order = await Order.findOne({platform: record._id.platform, orderId: oId});
-          record.order[oId] = order;
+          record.order.push(order)
           if(order && ['待发货', '已发货'].indexOf(order.state) != -1) record.success = true;
         }
       }
