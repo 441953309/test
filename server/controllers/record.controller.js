@@ -173,14 +173,14 @@ export async function getUserIds(ctx) {
       delete record.url;
 
       const user = await User.findOne({platform: record._id.platform, userId: record._id.userId});
-      if(user){
+      if (user) {
         record.addresses = user.addresses;
       }
 
       let orders = await Order.find({platform: record._id.platform, userId: record._id.userId});
-      if(orders){
+      if (orders) {
         orders = JSON.parse(JSON.stringify(orders));
-        for(let order of orders){
+        for (let order of orders) {
           order.success = ['待发货', '已发货', '已完成'].indexOf(order.state) != -1
         }
         record.userOrders = orders;
@@ -191,12 +191,14 @@ export async function getUserIds(ctx) {
       for (let oId of record.orderId) {
         if (oId) {
           let order = await Order.findOne({platform: record._id.platform, orderId: oId});
-          if(order){
+          if (order) {
             order = JSON.parse(JSON.stringify(order));
             order.success = ['待发货', '已发货', '已完成'].indexOf(order.state) != -1
             record.order.push(order)
 
-            if(order.success) record.success = true;
+            if (order.success) record.success = true;
+          } else {
+            record.order.push({orderId: oId})
           }
         }
       }
