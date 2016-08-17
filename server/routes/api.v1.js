@@ -7,6 +7,9 @@ const record = require('../controllers/record.controller');
 const url = require('../controllers/url.controller');
 const order = require('../controllers/order.controller');
 const user = require('../controllers/user.controller');
+const upgrade = require('../controllers/upgrade.controller')
+
+router.get('/upgrades', upgrade.getUpgrade);
 
 router.post('/channels', channel.create);//创建一个渠道
 router.delete('/channels', channel.remove);//删除一个渠道
