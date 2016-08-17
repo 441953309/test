@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Record = mongoose.model('Record');
 const Url = mongoose.model('Url');
+const Order = mongoose.model('Order');
 
 function getQueryString(url, name) {
   var reg = new RegExp("(^|[&\?])" + name + "=([^&]*)(&|$)");
@@ -168,6 +169,14 @@ export async function getUserIds(ctx) {
     for (let record of list) {
       record.success = record.url.indexOf('http://my.m.yhd.com/myH5/h5Order/h5OrderFinishPay.do') != -1;
       delete record.url;
+
+      record.order = {};
+      for(let oId of record.orderId){
+        if(oId){
+          let order = await Order.findOne({platform: record._id.platform, userId: record._id.platform, orderId: oId});
+          record.order[oId] = order;
+        }
+      }
     }
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
