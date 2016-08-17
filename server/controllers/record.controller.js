@@ -177,6 +177,11 @@ export async function getUserIds(ctx) {
         record.addresses = user.addresses;
       }
 
+      let orders = await Order.find({platform: record._id.platform, userId: record._id.userId});
+      if(orders){
+        record.userOrders = orders;
+      }
+
       //获取检测到的订单详情
       record.order = [];
       for (let oId of record.orderId) {
