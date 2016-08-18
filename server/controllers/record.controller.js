@@ -14,20 +14,16 @@ function getQueryString(url, name) {
 }
 
 export async function create(ctx) {
-  try {
-    ctx.request.body.ip = ctx.ip.replace('::ffff:', '');
+  ctx.request.body.ip = ctx.ip.replace('::ffff:', '');
 
-    let url = ctx.request.body.url;
-    ctx.request.body.url = url.indexOf('?') != -1 ? url.substr(0, url.indexOf('?')) : url;
-    ctx.request.body.query = url.replace(ctx.request.body.url, '');
-    ctx.request.body.orderId = getQueryString(url, 'orderCode') || getQueryString(url, 'orderId')
-    if (ctx.request.body.userId)ctx.request.body.userId = decodeURIComponent(ctx.request.body.userId);
+  let url = ctx.request.body.url;
+  ctx.request.body.url = url.indexOf('?') != -1 ? url.substr(0, url.indexOf('?')) : url;
+  ctx.request.body.query = url.replace(ctx.request.body.url, '');
+  ctx.request.body.orderId = getQueryString(url, 'orderCode') || getQueryString(url, 'orderId')
+  if (ctx.request.body.userId)ctx.request.body.userId = decodeURIComponent(ctx.request.body.userId);
 
-    await Record.create(ctx.request.body);
-    ctx.body = {code: 200, msg: '', data: true};
-  } catch (err) {
-    ctx.body = {code: 400, msg: err.message, data: false}
-  }
+  await Record.create(ctx.request.body);
+  ctx.body = {code: 200, msg: '', data: true};
 }
 
 export async function getRecords(ctx) {
