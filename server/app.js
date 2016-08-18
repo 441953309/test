@@ -7,6 +7,7 @@ const config =  require('./config/config');
 // 连接数据库.
 mongoose.connect(config.mongo.url, config.mongo.options);
 require('./models');
+mongoose.Promise = global.Promise;
 
 const app = new Koa();
 require('./config/passport')(passport);
