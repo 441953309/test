@@ -55,11 +55,11 @@ export async function getRecords(ctx) {
 
 
   if (ctx.query.url) {
-    match['url'] = {$regex: `/${ctx.query.url}/`};
+    match['url'] = {$regex: ctx.query.url};
   }
 
   if (ctx.query.query) {
-    match['query'] = {$regex: `/${ctx.query.query}/`};
+    match['query'] = {$regex: ctx.query.query};
   }
 
   let sortName = ctx.query.sortName || '-created';
