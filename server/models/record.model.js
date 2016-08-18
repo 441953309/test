@@ -13,7 +13,7 @@ let RecordSchema = new Schema({
   title: String, //需要单独更新进来
 
   ip: {type: String, required: true},       //ip地址
-  imei: {type: String, required: true},     //设备唯一识别
+  imei: {type: String, default: ""},     //设备唯一识别
   channel: {type: String, required: true},  //渠道类型
   username: {type: String, required: true}, //渠道名
   src: {type: String, required: true},      //平台
