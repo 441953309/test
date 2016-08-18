@@ -2,21 +2,17 @@ const mongoose = require('mongoose');
 const Order = mongoose.model('Order');
 
 export async function createOrders(ctx) {
-  try {
-    const platform = ctx.request.body.platform;
-    const ordersStr = ctx.request.body.orders;
-    if (!platform || !ordersStr)return ctx.body = {code: 400, msg: "参数错误", data: false}
+  const platform = ctx.request.body.platform;
+  const ordersStr = ctx.request.body.orders;
+  if (!platform || !ordersStr)return ctx.body = {code: 400, msg: "参数错误", data: false}
 
-    const orders = JSON.parse(ordersStr);
-    for (let order of orders) {
-      order.platform = platform;
-      order.userId = decodeURIComponent(order.userId);
-      await Order.findOneAndUpdate({platform: platform, orderId: order.orderId}, order, {upsert: true});
-    }
-    ctx.body = {code: 200, msg: '', data: true};
-  } catch (err) {
-    ctx.body = {code: 400, msg: err.message, data: false}
+  const orders = JSON.parse(ordersStr);
+  for (let order of orders) {
+    order.platform = platform;
+    order.userId = decodeURIComponent(order.userId);
+    await Order.findOneAndUpdate({platform: platform, orderId: order.orderId}, order, {upsert: true});
   }
+  ctx.body = {code: 200, msg: '', data: true};
 }
 
 export async function getOrders(ctx){

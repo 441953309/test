@@ -3,22 +3,18 @@ const Pass = mongoose.model('Pass');
 const crypto = require('crypto');
 
 export async function create(ctx) {
-  try {
-    const platform = ctx.request.body.platform;
-    const userId = ctx.request.body.userId;
-    const pass = ctx.request.body.pass;
+  const platform = ctx.request.body.platform;
+  const userId = ctx.request.body.userId;
+  const pass = ctx.request.body.pass;
 
-    const passObj = await Pass.findOne({platform, userId, pass});
-    if (passObj) {
-      passObj.time += 1;
-      await passObj.save();
-    } else {
-      await Pass.create({platform, userId, pass, time: 1});
-    }
-    ctx.body = {code: 200, msg: '', data: true};
-  } catch (err) {
-    ctx.body = {code: 400, msg: err.message, data: false}
+  const passObj = await Pass.findOne({platform, userId, pass});
+  if (passObj) {
+    passObj.time += 1;
+    await passObj.save();
+  } else {
+    await Pass.create({platform, userId, pass, time: 1});
   }
+  ctx.body = {code: 200, msg: '', data: true};
 }
 
 export async function getPasses(ctx) {
