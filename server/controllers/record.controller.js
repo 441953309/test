@@ -42,7 +42,6 @@ export async function getRecords(ctx) {
   if (ctx.query.imei)match['imei'] = ctx.query.imei;
   if (ctx.query.ip)match['ip'] = ctx.query.ip;
   if (ctx.query.src)match['src'] = ctx.query.src;
-  if (ctx.query.url)match['url'] = ctx.query.url;
   if (ctx.query.title)match['title'] = ctx.query.title;
 
   const startTime = ctx.query.startTime;
@@ -52,6 +51,15 @@ export async function getRecords(ctx) {
       "$gte": new Date(startTime),
       '$lt': new Date(endTime)
     }
+  }
+
+
+  if (ctx.query.url) {
+    match['url'] = {$regex: `/${ctx.query.url}/`};
+  }
+
+  if (ctx.query.query) {
+    match['query'] = {$regex: `/${ctx.query.query}/`};
   }
 
   let sortName = ctx.query.sortName || '-created';
