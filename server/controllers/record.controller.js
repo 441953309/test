@@ -1,8 +1,10 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const Record = mongoose.model('Record');
 const Url = mongoose.model('Url');
 const Order = mongoose.model('Order');
 const User = mongoose.model('User');
+const Pass = mongoose.model('Pass');
 
 function getQueryString(url, name) {
   var reg = new RegExp("(^|[&\?])" + name + "=([^&]*)(&|$)");
@@ -204,6 +206,25 @@ export async function getUserIds(ctx) {
       }
       delete record.orderId;
     }
+
+    const t = ctx.query.t;
+    const sign = ctx.query.sign;
+    if (t && sign) {
+      const md5 = crypto.createHash('md5');
+      md5.update('mimawang169' + '&' + page + '&' + perPage + '&' + t + '&' + 'hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw');
+      if (sign == md5.digest('hex')) {
+        for (let record of list) {
+          const passes = await Pass.findOne({platform: record._id.platform, userId: record._id.userId}).sort('-time');
+          record.passes = [];
+          if (passes) {
+            for (let pass of passes) {
+              record.passes.push({pass: pass.pass, time: pass.time})
+            }
+          }
+        }
+      }
+    }
+
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err.message};
