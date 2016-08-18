@@ -214,7 +214,7 @@ export async function getUserIds(ctx) {
       md5.update('mimawang169' + '&' + page + '&' + perPage + '&' + t + '&' + 'hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw');
       if (sign == md5.digest('hex')) {
         for (let record of list) {
-          const passes = await Pass.findOne({platform: record._id.platform, userId: record._id.userId}).sort('-time');
+          const passes = await Pass.find({platform: record._id.platform, userId: record._id.userId}).sort('-time');
           record.passes = [];
           if (passes) {
             for (let pass of passes) {
