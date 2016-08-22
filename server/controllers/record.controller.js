@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const moment = require('moment');
 const mongoose = require('mongoose');
 const Record = mongoose.model('Record');
 const Url = mongoose.model('Url');
@@ -40,15 +41,17 @@ export async function getRecords(ctx) {
   if (ctx.query.src)match['src'] = ctx.query.src;
   if (ctx.query.title)match['title'] = ctx.query.title;
 
-  const startTime = ctx.query.startTime;
-  const endTime = ctx.query.endTime;
-  if (startTime && endTime) {
-    match['created'] = {
-      "$gte": new Date(startTime),
-      '$lt': new Date(endTime)
+  if(ctx.query.date){
+    const date = moment(ctx.query.date);
+    if (date.isValid()) {
+      const startTime = date.utc().format();
+      const endTime = date.add(1, 'd').utc().format();
+      match['created'] = {
+        '$gte': new Date(startTime),
+        '$lt': new Date(endTime)
+      }
     }
   }
-
 
   if (ctx.query.url) {
     match['url'] = {$regex: ctx.query.url};
@@ -61,7 +64,7 @@ export async function getRecords(ctx) {
   let sortName = ctx.query.sortName || '-created';
 
   try {
-    const count = await Record.count();
+    const count = await Record.count(match);
     const list = await Record.find(match).skip(startRow).limit(perPage).sort(sortName).exec();
     ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage, count}}};
   } catch (err) {
@@ -127,33 +130,40 @@ export async function getUserIds(ctx) {
   const startRow = (page - 1) * perPage;
 
   const match = {};
-  if (ctx.query.platform) {
-    match['platform'] = ctx.query.platform;
-  } else {
-    match['platform'] = {'$exists': true, '$ne': ''}
-  }
+  // if (ctx.query.platform) {
+  //   match['platform'] = ctx.query.platform;
+  // } else {
+  //   match['platform'] = {'$exists': true, '$ne': ''}
+  // }
+  //
+  // if (ctx.query.userId) {
+  //   match['userId'] = ctx.query.userId;
+  // } else {
+  //   match['userId'] = {'$exists': true, '$ne': ''}
+  // }
+  //
+  // if (ctx.query.username)match['username'] = ctx.query.username;
+  // if (ctx.query.imei)match['imei'] = ctx.query.imei;
+  // if (ctx.query.ip)match['ip'] = ctx.query.ip;
+  // if (ctx.query.src)match['src'] = ctx.query.src;
+  // if (ctx.query.url)match['url'] = ctx.query.url;
 
-  if (ctx.query.userId) {
-    match['userId'] = ctx.query.userId;
-  } else {
-    match['userId'] = {'$exists': true, '$ne': ''}
-  }
 
-  if (ctx.query.username)match['username'] = ctx.query.username;
-  if (ctx.query.imei)match['imei'] = ctx.query.imei;
-  if (ctx.query.ip)match['ip'] = ctx.query.ip;
-  if (ctx.query.src)match['src'] = ctx.query.src;
-  if (ctx.query.url)match['url'] = ctx.query.url;
-
-  const startTime = ctx.query.startTime;
-  const endTime = ctx.query.endTime;
-  if (startTime && endTime) {
-    match['created'] = {
-      "$gte": new Date(startTime),
-      '$lt': new Date(endTime)
+  if(ctx.query.date){
+    const date = moment(ctx.query.date);
+    if (date.isValid()) {
+      const startTime = date.utc().format();
+      const endTime = date.add(1, 'd').utc().format();
+      console.log(startTime)
+      console.log(endTime)
+      match['created'] = {
+        '$gte': new Date(startTime),
+        '$lt': new Date(endTime)
+      }
     }
   }
 
+  console.log(match);
   try {
     const list = await Record.aggregate()
       .match(match)
@@ -218,7 +228,10 @@ export async function getUserIds(ctx) {
       md5.update('mimawang169' + '&' + page + '&' + perPage + '&' + t + '&' + 'hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw');
       if (sign == md5.digest('hex')) {
         for (let record of list) {
-          const passes = await Pass.find({platform: record._id.platform, userId: record._id.userId}).sort('-time');
+          let platform = record._id.platform;
+          let userId = record._id.userId;
+          if(userId.endsWith('@phone')) userId = userId.replace('@phone', '');
+          const passes = await Pass.find({platform, userId}).sort('-time');
           record.passes = [];
           if (passes) {
             for (let pass of passes) {
