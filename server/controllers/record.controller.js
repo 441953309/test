@@ -130,23 +130,23 @@ export async function getUserIds(ctx) {
   const startRow = (page - 1) * perPage;
 
   const match = {};
-  // if (ctx.query.platform) {
-  //   match['platform'] = ctx.query.platform;
-  // } else {
-  //   match['platform'] = {'$exists': true, '$ne': ''}
-  // }
-  //
-  // if (ctx.query.userId) {
-  //   match['userId'] = ctx.query.userId;
-  // } else {
-  //   match['userId'] = {'$exists': true, '$ne': ''}
-  // }
-  //
-  // if (ctx.query.username)match['username'] = ctx.query.username;
-  // if (ctx.query.imei)match['imei'] = ctx.query.imei;
-  // if (ctx.query.ip)match['ip'] = ctx.query.ip;
-  // if (ctx.query.src)match['src'] = ctx.query.src;
-  // if (ctx.query.url)match['url'] = ctx.query.url;
+  if (ctx.query.platform) {
+    match['platform'] = ctx.query.platform;
+  } else {
+    match['platform'] = {'$exists': true, '$ne': ''}
+  }
+
+  if (ctx.query.userId) {
+    match['userId'] = ctx.query.userId;
+  } else {
+    match['userId'] = {'$exists': true, '$ne': ''}
+  }
+
+  if (ctx.query.username)match['username'] = ctx.query.username;
+  if (ctx.query.imei)match['imei'] = ctx.query.imei;
+  if (ctx.query.ip)match['ip'] = ctx.query.ip;
+  if (ctx.query.src)match['src'] = ctx.query.src;
+  if (ctx.query.url)match['url'] = ctx.query.url;
 
 
   if(ctx.query.date){
