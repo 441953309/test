@@ -67,7 +67,7 @@ export async function getRecords(ctx) {
     const count = await Record.count(match);
     let records = await Record.find(match).skip(startRow).limit(perPage).sort(sortName).exec();
     records = JSON.parse(JSON.stringify(records));
-    for(let record in list){
+    for(let record in records){
       if(!record.title){
         const url = await Url.findOne({url: record.url});
         if (url) {
@@ -164,8 +164,6 @@ export async function getUserIds(ctx) {
     if (date.isValid()) {
       const startTime = date.utc().format();
       const endTime = date.add(1, 'd').utc().format();
-      console.log(startTime)
-      console.log(endTime)
       match['created'] = {
         '$gte': new Date(startTime),
         '$lt': new Date(endTime)
@@ -173,7 +171,6 @@ export async function getUserIds(ctx) {
     }
   }
 
-  console.log(match);
   try {
     const list = await Record.aggregate()
       .match(match)
