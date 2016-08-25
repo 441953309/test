@@ -21,21 +21,50 @@ export async function create(ctx) {
   }
 }
 
-export async function remove(ctx){
+export async function remove(ctx) {
   try {
     const id = ctx.request.body.id;
-    if(!mongoose.Types.ObjectId.isValid(id)){
+    if (!mongoose.Types.ObjectId.isValid(id)) {
       return ctx.body = {code: 400, msg: '请输入正确的id'};
     }
 
     const channel = await Channel.findByIdAndRemove(id);
-    if(channel){
+    if (channel) {
       ctx.body = {code: 200, msg: '删除成功'};
-    }else{
+    } else {
       ctx.body = {code: 400, msg: '删除失败'};
     }
   } catch (err) {
-    ctx.body = {code: 400, msg: err};
+    ctx.body = {code: 400, msg: err.message};
+  }
+}
+
+export async function edit(ctx) {
+  try {
+    const id = ctx.request.body.id;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return ctx.body = {code: 400, msg: '请输入正确的id'};
+    }
+
+    if (!ctx.request.body.url && !ctx.request.body.remark) {
+      return ctx.body = {code: 400, msg: '请输入修改内容'};
+    }
+
+    const channel = await Channel.findById(id);
+    if (channel) {
+      if (ctx.request.body.url) {
+        channel.url = ctx.request.body.url;
+      }
+      if (ctx.request.body.remark) {
+        channel.remark = ctx.request.body.remark;
+      }
+      await channel.save();
+      ctx.body = {code: 200, msg: '修改成功'};
+    } else {
+      ctx.body = {code: 400, msg: '修改失败'};
+    }
+  } catch (err) {
+    ctx.body = {code: 400, msg: err.message};
   }
 }
 
@@ -62,7 +91,7 @@ export async function getChannels(ctx) {
   try {
     const count = await Channel.count();
     const list = await Channel.find({}).skip(startRow).limit(perPage).sort(sortName).exec();
-    ctx.body = {code: 200, msg: '', data: {items: list, _meta:{page, perPage, count}}};
+    ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage, count}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
   }
