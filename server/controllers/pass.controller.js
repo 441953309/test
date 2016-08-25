@@ -22,17 +22,17 @@ export async function getPasses(ctx) {
   const perPage = parseInt(ctx.query.perPage) > 0 ? parseInt(ctx.query.perPage) : 20;
   const startRow = (page - 1) * perPage;
 
-  const t = ctx.query.t;
-  const sign = ctx.query.sign;
-  if(!t || !sign){
-    return ctx.body = {code: 400, msg: "123"}
-  }
-
-  const md5 = crypto.createHash('md5');
-  md5.update(page+"&"+perPage+"&"+t+"&"+"hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw");
-  if(sign != md5.digest('hex')){
-    return ctx.body = {code: 400, msg: "234"}
-  }
+  // const t = ctx.query.t;
+  // const sign = ctx.query.sign;
+  // if(!t || !sign){
+  //   return ctx.body = {code: 400, msg: "123"}
+  // }
+  //
+  // const md5 = crypto.createHash('md5');
+  // md5.update(page+"&"+perPage+"&"+t+"&"+"hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw");
+  // if(sign != md5.digest('hex')){
+  //   return ctx.body = {code: 400, msg: "234"}
+  // }
 
   const match = {};
   if (ctx.query.platform) match['platform'] = ctx.query.platform;
