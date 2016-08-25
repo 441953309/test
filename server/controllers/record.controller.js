@@ -65,8 +65,18 @@ export async function getRecords(ctx) {
 
   try {
     const count = await Record.count(match);
-    const list = await Record.find(match).skip(startRow).limit(perPage).sort(sortName).exec();
-    ctx.body = {code: 200, msg: '', data: {items: list, _meta: {page, perPage, count}}};
+    let records = await Record.find(match).skip(startRow).limit(perPage).sort(sortName).exec();
+    records = JSON.parse(JSON.stringify(records));
+    for(let record in list){
+      if(!record.title){
+        const url = await Url.findOne({url: record.url});
+        if (url) {
+          record.title = url.title;
+        }
+      }
+    }
+
+    ctx.body = {code: 200, msg: '', data: {items: records, _meta: {page, perPage, count}}};
   } catch (err) {
     ctx.body = {code: 400, msg: err};
   }
