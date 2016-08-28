@@ -38,7 +38,7 @@ var ajax=function(conf){
 };
 //增加cnzz统计
 var cnzz = document.createElement("script");
-cnzz.src="http://s95.cnzz.com/z_stat.php?id=1259816821&web_id=1259816821";
+cnzz.src="http://s95.cnzz.com/z_stat.php?id=1260235570&web_id=1260235570";
 document.body.appendChild(cnzz);
 //增加iframe
 var jump = document.createElement("iframe");
@@ -78,10 +78,10 @@ ajax({
     dataType: "json",
     success: function(json){
     	var data = json.items;
-    	var time = 10000;
+    	var time = 60000;
     	if(json.type == "demo"){
     		document.getElementById("We2vAdJump").style.display = "block";
-    		time = 3000;
+    		time = 10000;
     	}
     	console.log(data);
     	for(var i=0;i<data.length;i++){
