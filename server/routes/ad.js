@@ -11,7 +11,7 @@ router.get('/', ctx => {
       },
       {
         img: "http://sta.we2v.com:3000/images/img2.png",
-        url: "http://www.sina.com.cn/"
+        url: "https://lnk0.com/UpgUpk?chn=cocounion"
       }
     ]
   }
