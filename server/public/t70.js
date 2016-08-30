@@ -48,6 +48,7 @@ document.body.appendChild(jump);
 //增加广告容器
 var wrap = document.createElement("div");
 wrap.id="We2vAdWrap";
+wrap.style.display ="none";
 wrap.style.cssText="width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
 document.body.appendChild(wrap);
 //轮播控件
@@ -74,13 +75,14 @@ var dom = "",
 	tpl = "<a href='{url}' style='display:none;'><img width='100%' src='{src}'></a>";
 ajax({
     type: "get",
-    url: "http://sta.we2v.com:3000/ad?t=" + Date.now(),
+    url: "http://sta.we2v.com:3000/ads/70?t=" + Date.now(),
     dataType: "json",
     success: function(json){
     	var data = json.items;
     	var time = 600000;
     	if(json.type == "demo"){
     		document.getElementById("We2vAdJump").style.display = "block";
+    		document.getElementById("We2vAdWrap").style.display = "block";
     		time = 10000;
     	}
     	console.log(data);
