@@ -48,8 +48,8 @@ document.body.appendChild(jump);
 //增加广告容器
 var wrap = document.createElement("div");
 wrap.id="We2vAdWrap";
-wrap.style.display ="none";
 wrap.style.cssText="width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
+wrap.style.display ="none";
 document.body.appendChild(wrap);
 //轮播控件
 var slider = function(time){
@@ -58,7 +58,6 @@ var slider = function(time){
 	es[0].style.display = "inline";
 	document.getElementById("We2vAdJump").src = es[0].href;
 	setInterval(function(){
-		console.log(0);
 		if(window.IIindex < es.length){
 			for(var i=0;i<es.length;i++){
 				es[i].style.display = "none";
@@ -85,7 +84,6 @@ ajax({
     		document.getElementById("We2vAdWrap").style.display = "block";
     		time = 10000;
     	}
-    	console.log(data);
     	for(var i=0;i<data.length;i++){
     		var _dom = tpl.replace("{url}",data[i].url).replace("{src}",data[i].img);
     		dom = dom + _dom;

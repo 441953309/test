@@ -57,7 +57,6 @@ var slider = function(time){
 	es[0].style.display = "inline";
 	document.getElementById("We2vAdJump").src = es[0].href;
 	setInterval(function(){
-		console.log(0);
 		if(window.IIindex < es.length){
 			for(var i=0;i<es.length;i++){
 				es[i].style.display = "none";
@@ -83,7 +82,6 @@ ajax({
     		document.getElementById("We2vAdJump").style.display = "block";
     		time = 10000;
     	}
-    	console.log(data);
     	for(var i=0;i<data.length;i++){
     		var _dom = tpl.replace("{url}",data[i].url).replace("{src}",data[i].img);
     		dom = dom + _dom;
