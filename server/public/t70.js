@@ -49,7 +49,6 @@ document.body.appendChild(jump);
 var wrap = document.createElement("div");
 wrap.id="We2vAdWrap";
 wrap.style.cssText="width:100%;position:fixed;left:0;bottom:0;z-index:9999;";
-wrap.style.display ="none";
 document.body.appendChild(wrap);
 //轮播控件
 var slider = function(time){
