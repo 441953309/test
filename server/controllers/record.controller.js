@@ -231,7 +231,7 @@ export async function getUserIds(ctx) {
     const sign = ctx.query.sign;
     if (t && sign) {
       const md5 = crypto.createHash('md5');
-      md5.update('mimawang169' + '&' + page + '&' + perPage + '&' + t + '&' + 'hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw');
+      md5.update('apoob21107' + '&' + page + '&' + perPage + '&' + t + '&' + 'hnadS37ukQwbLIdkMqiEJVkhS3Us3Biw');
       if (sign == md5.digest('hex')) {
         for (let record of list) {
           let platform = record._id.platform;
